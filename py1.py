@@ -59,16 +59,21 @@ def main():
 def file_func(path, items):
     choice = int(input("Выберите номер папки для входа: "))
     
-    selected_item = items[choice - 1]
-    selected_path = os.path.join(path, selected_item)
-    
-    if os.path.isdir(selected_path):
-        new_items = os.listdir(selected_path)
-        list_directory_contents(selected_path)
-        file_func(selected_path, new_items)
+    if 1 <= choice <= len(items):
+        selected_item = items[choice - 1]
+        selected_path = os.path.join(path, selected_item)
+        
+        if os.path.isdir(selected_path):
+            new_items = os.listdir(selected_path)
+            list_directory_contents(selected_path)
+            file_func(selected_path, new_items)
+        else:
+            print(f"Ошибка: '{selected_item}' является файлом, а не папкой")
+            list_directory_contents(selected_path)
+            file_func(path, items)
     else:
-        print(f"Ошибка: '{selected_item}' является файлом, а не папкой")
-        list_directory_contents(selected_path)
+        print(f"Ошибка: '{choice}' путь не найден")
+        list_directory_contents(path)
         file_func(path, items)
 
 
